@@ -14,11 +14,12 @@ class item{
 public:
 	string name;
 	int type;//int = 1, char = 2, float = 3;
+	int length;
 	bool isUnique;
 	bool isPrimary;
-	vector<string> line;
+	set<string> line;
 	bool operator ==(const item &rhs)const{
-		if(name = rhs.name && type = rhs.type && isUnique == rhs.isUnique && isPrimary == rhs.isPrimary && line == rhs.line){
+		if(name == rhs.name && type == rhs.type && length == rhs.length && isUnique == rhs.isUnique && isPrimary == rhs.isPrimary && line == rhs.line){
 			return 1;
 		}
 		return 0;
@@ -64,9 +65,9 @@ public:
 		for(int i = 0; i < in.size(); i++){
 			switch(in[i].type){
 				case 1:size += sizeof(int);break;
-				case 2:size += sizeof(char);break;
+				case 2:size += items[i].length; break;
 				case 3:size += sizeof(float);break;
-				default: printf("type mismatched\n");assert(false)break; 
+				default: printf("type mismatched\n"); assert(false); break;
 			}
 		}	
 	}
@@ -79,10 +80,10 @@ public:
 			assert(false);
 		}
 		for(int i = 0; i < in.size(); i++){
-			this.items.pushback(in[i]);
+			this->items.push_back(in[i]);
 			switch(in[i].type){
 				case 1:size += sizeof(int);break;
-				case 2:size += sizeof(char);break;
+				case 2:size += items[i].length; break;
 				case 3:size += sizeof(float);break;
 				default: printf("type dismatched\n");break; 
 			}
@@ -96,10 +97,11 @@ public:
 		for (int i=0;i<items.size();i++) {
 			fout << items[i].name << endl;
 			fout << items[i].type <<endl;
+			fout << items[i].length << endl;
 			fout << items[i].isUnique << endl;
 			fout << items[i].isPrimary <<endl;
 			fout << items[i].line.size();
-			for (set <string>:: iterator it=items[i].line.begin();it!=items[i].line.end();it++) {
+			for (set <string>:: iterator it = items[i].line.begin();it!=items[i].line.end();it++) {
 				fout  << " "<< *it;
 		}
 		fout <<  endl;
@@ -107,7 +109,7 @@ public:
 	fout.close();
 	}
 };
-
+#endif
 
 
 
