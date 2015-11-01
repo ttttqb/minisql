@@ -13,7 +13,7 @@ public:
 class Fitter {
 public:
 	vector <Rule> rules;
-	Fitter();
+	Fitter(){}
 	void addRule(const Rule &rule){
 		rules.push_back(rule);
 	}

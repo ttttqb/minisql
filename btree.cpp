@@ -160,7 +160,19 @@ int btree::btFindResult(const string& fname, const attribute& key){
 	memcpy(&bth, block.data, sizeof(bth));
 
 	assert(bth.type == key.type);
-
+	int offset = btFind(fname, bth.rootOffset, key, bth);
+	node now = getNode(fname, offset, bth);
+	for (int i = 0; i<now.data.size(); i++) {
+		if (now.data[i] >= key) {
+			return now.sons[i];
+		}
+	}
+	int next = *(now.sons.end() - 1);
+	if (next == -1) {
+		return -1;
+	}
+	node nnode = getNode(fname, next, bth);
+	return nnode.sons[0];
 	return btFind(fname, bth.rootOffset, key, bth);
 	//?
 }

@@ -10,9 +10,6 @@ bufmgr::bufmgr()
 
 bufmgr::~bufmgr()
 {
-	delete flist;
-	delete plist;
-	delete page;
 }
 
 FileStruct bufmgr::bmopenFile(const string &fname){

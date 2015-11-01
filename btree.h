@@ -8,8 +8,7 @@
 #include "attribute.h"
 
 using namespace std;
-
-unsigned char nullfill[BlockSize];
+extern unsigned char nullfill[BlockSize];
 
 struct node{
 	bool isRoot;
@@ -29,9 +28,9 @@ class btree :
 	public bufmgr
 {
 public:
-	btree();
+	btree(){}
 	btree(bufmgr &s) :bufmgr(s){}
-	~btree();
+	~btree(){}
 	void btCreate(const string&, int, int);
 	int btFindResult(const string&, const attribute&);
 	int btFind(const string&, int, const attribute&, btreeHeader);

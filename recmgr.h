@@ -3,14 +3,17 @@
 #include "table.h"
 #include "attribute.h"
 #include "fitter.h"
+#include "btree.h"
 #include <vector>
 #include <set>
 using namespace std;
+extern unsigned char nullfill[BlockSize];
 
-class recmgr
+class recmgr:public btree
 {
 public:
 	recmgr();
+	recmgr(bufmgr &s) :btree(s){}
 	~recmgr();
 	int rmInsertRecord(const string &fileName, const vector<attribute> &entry, const table &datatable);
 	void rmDeleteWithIndex(const string fileName, int offset, const Fitter &fitter, const table &datatable);

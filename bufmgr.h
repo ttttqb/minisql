@@ -9,6 +9,7 @@
 using namespace std;
 const int BlockSize = 1024;
 const int BufferSize = 100;
+
 extern unsigned char nullfill[BlockSize];
 
 class Block{
@@ -28,7 +29,7 @@ public:
 	FILE *fp;
 	int fsize;
 	~FileStruct(){
-		delete fp;
+		//delete fp;
 	}
 };
 
