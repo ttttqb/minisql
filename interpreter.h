@@ -64,6 +64,13 @@ void interpreter::parse(string input) {
 			input.insert(i + 2, " ");
 			i += 2;
 		}
+		if (input[i] == '\'' && input[i-1] == ' '){
+			int j = i + 1;
+			while (input[j] != '\''){
+				if (input[j] == ' ') input.erase(input.begin() + j);
+				else j++;
+			}
+		}
 	}
 	strstream str;
 	str << input;
