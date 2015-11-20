@@ -7,10 +7,8 @@
 #include <map>
 
 using namespace std;
-const int BlockSize = 1024;
+const int BlockSize = 4096;
 const int BufferSize = 100;
-
-extern unsigned char nullfill[BlockSize];
 
 class Block{
 public:
@@ -37,7 +35,7 @@ class bufmgr
 {
 public:
 	bufmgr();
-	bufmgr(bufmgr& s) :flist(s.flist), plist(s.plist), page(s.page){}
+	bufmgr(bufmgr& s) :flist(s.flist), blist(s.blist), page(s.page){}
 	~bufmgr();
 
 	FileStruct bmopenFile(const string&);
@@ -52,7 +50,7 @@ public:
 	void bmclear(const string&);
 private:
 	map <string, FileStruct> *flist;
-	map <string, list<int>> *plist;
+	map <string, list<int>> *blist;
 	list <Buffer> *page;
 };
 

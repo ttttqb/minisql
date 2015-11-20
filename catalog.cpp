@@ -11,47 +11,7 @@ catalog::~catalog()
 }
 
 
-map <string, pair<string, int> > indexToTable;
-class indexmanager {
-public:
-	indexmanager() {
-		ifstream fin("index.catalog");
-		if (!fin)
-			return;
-		string a, b;
-		int c;
-		while (fin >> a >> b >> c) {
-			indexToTable[a] = make_pair(b, c);
-		}
-		fin.close();
-	}
-	~indexmanager() {
-		ofstream fout("index.catalog");
-		for (map <string, pair<string, int> >::iterator it = indexToTable.begin(); it != indexToTable.end(); it++) {
-			fout << it->first << " " << it->second.first << " " << it->second.second << endl;
-		}
-		fout.close();
-	}
-}indexmanagerinstance;
-bool catalog::cmExistIndex(const string &indexname) {
-	return indexToTable.find(indexname) != indexToTable.end();
-}
-bool catalog::cmRegisterIndex(const string &tablename, const string &indexname, int itemIndex) {
-	if (indexToTable.find(indexname) != indexToTable.end())
-		return false;
-	indexToTable[indexname] = make_pair(tablename, itemIndex);
-	return true;
-}
-pair<string, int> catalog::cmAskIndex(const string indexName) {
-	assert(cmExistIndex(indexName));
-	return indexToTable[indexName];
-}
-bool catalog::cmDeleteIndex(const string indexName) {
-	if (indexToTable.find(indexName) == indexToTable.end())
-		return false;
-	indexToTable.erase(indexToTable.find(indexName));
-	return true;
-}
+/* check table existing */
 bool catalog::cmExistTable(const string &name) {
 	ifstream fin((name).c_str());
 	if (!fin)
@@ -62,6 +22,7 @@ bool catalog::cmExistTable(const string &name) {
 	return header == name;
 
 }
+/* create a new table */
 table catalog::cmCreateTable(const string &name, const vector <item> &data) {
 	assert(!cmExistTable(name));
 	table newtable(name, data);
@@ -69,10 +30,11 @@ table catalog::cmCreateTable(const string &name, const vector <item> &data) {
 	return newtable;
 }
 
-
+/* read a table from file */
 table catalog::cmReadTable(const string &name) {
 	assert(cmExistTable(name));
 	table now;
+	/* read it using file stream */
 	ifstream fin((name).c_str());
 	fin >> now.name;
 	fin >> now.size;
@@ -95,23 +57,26 @@ table catalog::cmReadTable(const string &name) {
 	}
 	return now;
 }
-
+/* delete a table */
 void catalog::cmDropTable(const string &name) {
 	assert(cmExistTable(name));
 	string tablename = name;
+	/* delete the post name */
 	while (*(tablename.end() - 1) != '.')
 		tablename.erase(tablename.end() - 1);
 	tablename.erase(tablename.end() - 1);
 
+	/* delete all index file */
 	table nowtable = cmReadTable(name);
 	for (int i = 0; i<nowtable.items.size(); i++) {
 		bool have = false;
 		for (set<string>::iterator it = nowtable.items[i].indices.begin(); it != nowtable.items[i].indices.end(); it++)  {
-			cmDeleteIndex(*it);
+			ixDeleteIndex(*it);
 			have = true;
 		}
 		if (have) bmclear(tablename + "." + nowtable.items[i].name + ".index");
 	}
+	/* delete db file */
 	rmClear(tablename + ".db");
 	remove((name).c_str());
 }

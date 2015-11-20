@@ -10,10 +10,10 @@ public:
 	attribute rhs;
 	Rule::Rule(int index, int type, attribute rhs) :index(index), type(type), rhs(rhs) {}
 };
-class Fitter {
+class Ruletree {
 public:
 	vector <Rule> rules;
-	Fitter(){}
+	Ruletree(){}
 	void addRule(const Rule &rule){
 		rules.push_back(rule);
 	}

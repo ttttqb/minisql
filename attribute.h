@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _ATTRIBUTE_H_
+#define _ATTRIBUTE_H_
 #include <string>
 #include <cassert>
 #include <cmath>
@@ -26,3 +27,4 @@ public:
 	void print();
 };
 
+#endif

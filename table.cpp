@@ -3,7 +3,7 @@
 #include <cassert>
 #include "table.h"
 using namespace std;
-
+/* table construction */
 table::table(const string & name, const vector<item> &items) {
 	size = 0;
 	this->name = name;
@@ -21,6 +21,7 @@ table::table(const string & name, const vector<item> &items) {
 table::table() {
 
 }
+/* output table to file */
 void table::write() {
 	ofstream fout((name).c_str());
 	fout << name << endl;

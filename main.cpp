@@ -3,14 +3,14 @@
 #include "interpreter.h"
 
 using namespace std;
-char buf[256];
 
 int main(void){
-	bufmgr *db = new bufmgr();
-	interpreter dbms(*db);
+	/* initiallization */
+	interpreter dbms;
+	char buf[256];
 	while (true){
 		printf(">>");
 		gets(buf);
-		dbms.ipAddLine(buf);
+		dbms.nextline(buf);
 	}
 }

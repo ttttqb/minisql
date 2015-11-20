@@ -1,6 +1,6 @@
 #include "attribute.h"
 
-
+/* construction functions */
 attribute::attribute() :type(-1){}
 
 attribute::attribute(int data) : datai(data), type(0){}
@@ -15,6 +15,7 @@ attribute::~attribute()
 {
 }
 
+/* operation overloading */
 bool attribute::operator<(const attribute &data) const{
 	assert(this->type == data.type);
 	switch (data.type){
@@ -52,10 +53,11 @@ bool attribute::operator!=(const attribute &data) const{
 }
 
 void attribute::print(){
-	switch (type){
-	case 0:printf("%d", datai); break;
-	case 1:printf("%f", dataf); break;
-	case 2:printf("%s", datas.c_str()); break;
-	default:assert(false);
-	}
+	if (type == 0)
+		printf("%d", datai);
+	else if (type == 1)
+		printf("%f", dataf);
+	else if (type == 2)
+		printf("%s", datas.c_str());
+	else assert(false);
 }
